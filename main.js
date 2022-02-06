@@ -1,11 +1,27 @@
 import $ from 'jquery';
 import './style.scss'
 
+
 $(document).ready(function(){
+    const menuBlock = $('.sticky-menu--nav');
     const menuBtn = $('.sticky-menu--nav button');
     const stickyMenu = $('.sticky-menu');
     const slideMenu = $('.slide-menu');
     const slideMenuItem = $('.slide-menu-item');
+
+
+    $(window).scroll(function (){
+        if(!stickyMenu.hasClass('active')){
+            const scrollPos = $(window).scrollTop();
+            if(scrollPos > 100) {
+                menuBlock.removeClass('inactive')
+            } else {
+                menuBlock.addClass('inactive')
+            }
+        }
+    })
+
+
     menuBtn.click(function (e) {
         e.preventDefault();
         stickyMenu.toggleClass('active')
