@@ -1,7 +1,69 @@
-import $ from 'jquery';
+// import $ from 'jquery';
 import './style.scss'
 
 
+// Vanilla JS
+(function() {
+    // Switch to NodeList
+    // NodeList.prototype.forEach = Array.prototype.forEach;
+
+    // sticky-menu used selectors
+    var menuBlock = document.querySelector('.sticky-menu--nav');
+    var menuBtn = document.querySelector('.sticky-menu--nav button');
+    var stickyMenu = document.querySelector('.sticky-menu');
+    var slideMenu = document.querySelector('.slide-menu');
+    var slideMenuItem = document.querySelector('.slide-menu-item');
+    var subMenuButton = document.querySelectorAll('.slide-menu--item button span');
+    var slideMenuBack = document.querySelectorAll('.slide-menu-item .back');
+
+    // Toggle Sticky-Menu
+    menuBtn.addEventListener('click', function (){
+        stickyMenu.classList.toggle('active')
+        if(stickyMenu.classList.contains('active')){
+            menuBtn.innerHTML = '<ion-icon class="close" name="close-outline"></ion-icon>';
+        } else {
+            menuBtn.innerHTML = 'Menu';
+        }
+    })
+
+    // Toggle Sticky-Sub-Menu
+    subMenuButton.forEach(function(el){
+        el.addEventListener('click', function (e){
+            slideMenu.classList.add('is-open');
+            // console.log(e.currentTarget.parentNode.parentNode.querySelector('ul'));
+            e.currentTarget.parentNode.parentNode.querySelector('ul').classList.add('active');
+            var activeHeight = e.currentTarget.parentNode.parentNode.querySelector('ul').offsetHeight;
+            stickyMenu.style.height = (activeHeight + 40) + "px";
+        })
+    })
+
+    slideMenuBack.forEach(function (el){
+        el.addEventListener('click', function (){
+            slideMenu.classList.remove('is-open')
+            slideMenuItem.classList.remove('active')
+            var activeHeight = slideMenu.clientHeight;
+            stickyMenu.style.height = (activeHeight + 40) + "px";
+        })
+    })
+
+    // Sticky-Menu On Scroll Event
+    var myScrollFunc = function() {
+        if(!stickyMenu.classList.contains('active')){
+            var y = window.scrollY;
+            if(y > 100) {
+                menuBlock.classList.remove('inactive')
+            } else {
+                menuBlock.classList.add('inactive')
+            }
+        }
+    };
+
+    window.addEventListener("scroll", myScrollFunc);
+})();
+
+
+// jQuery
+/*
 $(document).ready(function(){
     const menuBlock = $('.sticky-menu--nav');
     const menuBtn = $('.sticky-menu--nav button');
@@ -47,3 +109,4 @@ $(document).ready(function(){
         $('.sticky-menu').css("height", (activeHeight + 40) + "px")
     })
 })
+*/
